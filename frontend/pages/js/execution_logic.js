@@ -194,6 +194,8 @@ var ExecutionLogicModule = (function () {
     },
 
     launch_code: function (python_version) {
+      // force python 2.x
+      python_version = 2
 
       if (is_connection_closed()) {
         console.log("Connection not opened.");

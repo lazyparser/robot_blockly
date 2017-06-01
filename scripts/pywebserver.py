@@ -3,11 +3,13 @@ import http.server
 import socketserver
 import socket
 import os
-from rospkg import RosPack
+#from rospkg import RosPack
 
-rp = RosPack()
-frontend_path = rp.get_path('robot_blockly')
-frontend_path += '/frontend'
+#rp = RosPack()
+#frontend_path = rp.get_path('robot_blockly')
+#frontend_path += '/frontend'
+#  TODO: ISCASXLAB
+frontend_path = '/work/ws_blockly/src/robot_blockly/frontend/'
 
 print("Changing serve path to: " + frontend_path)
 

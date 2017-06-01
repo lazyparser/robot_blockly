@@ -1,4 +1,4 @@
-#!/usr/bin/env python3
+#!/usr/bin/env python
 # Software License Agreement (BSD License)
 #
 # Copyright (c) 2015, Erle Robotics LLC
@@ -38,7 +38,7 @@ import os
 import threading
 import signal
 import rosnode
-import mavros
+#import mavros
 
 from subprocess import Popen
 from std_msgs.msg import String
@@ -48,16 +48,16 @@ from autobahn.asyncio.websocket import WebSocketServerProtocol, \
 from robot_blockly.srv import SetCurrentBlockId, SetCurrentBlockIdResponse
 from std_msgs.msg import String
 from sensor_msgs.msg import Joy
-from crab_msgs.msg import apm_imu
-from crab_msgs.msg import BodyCommand
-from crab_msgs.msg import BodyState
-from crab_msgs.msg import GaitCommand
-from crab_msgs.msg import LegIKRequest
-from crab_msgs.msg import LegJointsState
-from crab_msgs.msg import LegPositionState
-from crab_msgs.msg import LegsJointsState
-from mavros_msgs.msg import OverrideRCIn
-from mavros_msgs.srv import SetMode
+#from crab_msgs.msg import apm_imu
+#from crab_msgs.msg import BodyCommand
+#from crab_msgs.msg import BodyState
+#from crab_msgs.msg import GaitCommand
+#from crab_msgs.msg import LegIKRequest
+#from crab_msgs.msg import LegJointsState
+#from crab_msgs.msg import LegPositionState
+#from crab_msgs.msg import LegsJointsState
+#from mavros_msgs.msg import OverrideRCIn
+#from mavros_msgs.srv import SetMode
 
 try:
     import asyncio
@@ -316,7 +316,9 @@ class BlocklyServerProtocol(WebSocketServerProtocol):
         ###########################
         # Start building the ROS node:
 
-        target.write("#!/usr/bin/env python3\n")
+        target.write("#!/usr/bin/env python\n")
+        target.write("import sys\n")
+        target.write("print ('####', sys.path, '####')\n")
         target.write("import rospy\n")
         target.write("import rosnode\n")
         target.write("import subprocess\n")
