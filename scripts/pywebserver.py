@@ -1,27 +1,24 @@
-#!/usr/bin/env python3
-import http.server
-import socketserver
-import socket
+#!/usr/bin/env python
+import sys
+import BaseHTTPServer
+from SimpleHTTPServer import SimpleHTTPRequestHandler
 import os
-#from rospkg import RosPack
+from rospkg import RosPack
 
-#rp = RosPack()
-#frontend_path = rp.get_path('robot_blockly')
-#frontend_path += '/frontend'
-#  TODO: ISCASXLAB
-frontend_path = '/work/ws_blockly/src/robot_blockly/frontend/'
-
-print("Changing serve path to: " + frontend_path)
-
+rp = RosPack()
+frontend_path = rp.get_path('robot_blockly')
+frontend_path += '/frontend'
 os.chdir(frontend_path)
 
-HOST = socket.gethostname()
-PORT = 1036
-address = ("",PORT)
 
-Handler = http.server.SimpleHTTPRequestHandler
-
-httpd = socketserver.TCPServer(address, Handler)
-
-print("serving at port", PORT)
+HandlerClass = SimpleHTTPRequestHandler
+ServerClass  = BaseHTTPServer.HTTPServer
+Protocol     = "HTTP/1.0"
+port         = 1036
+server_address = ('127.0.0.1', port)
+HandlerClass.protocol_version = Protocol
+httpd = ServerClass(server_address, HandlerClass)
+ 
+sa = httpd.socket.getsockname()
+print "Serving HTTP on", sa[0], "port", sa[1], "..."
 httpd.serve_forever()
