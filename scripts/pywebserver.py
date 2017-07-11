@@ -26,8 +26,8 @@ commands = ['roslaunch pr2_description upload_pr2.launch',\
 	    'roslaunch rosbridge_server rosbridge_websocket.launch']
 '''
 
-for command in commands:
-       subprocess.Popen(command, stdout=subprocess.PIPE, shell=True)
+#for command in commands:
+ #      subprocess.Popen(command, stdout=subprocess.PIPE, shell=True)
 os.chdir(frontend_path)
 
 
