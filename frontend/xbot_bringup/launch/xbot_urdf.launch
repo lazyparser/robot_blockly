@@ -1,0 +1,6 @@
+<launch>
+  <!-- send xbot urdf to param server -->
+  <group>
+    <param name="robot_description" command="$(find xacro)/xacro '$(find xbot_bringup)/urdf/Xbot.urdf.xacro'" />
+  </group>
+</launch>
