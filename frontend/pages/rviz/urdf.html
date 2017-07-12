@@ -15,6 +15,7 @@
   /**
    * Setup all visualization elements when the page is loaded. 
    */
+
   function init() {
     // Connect to ROS.
     var ros = new ROSLIB.Ros({
@@ -45,12 +46,19 @@
     var urdfClient = new ROS3D.UrdfClient({
       ros : ros,
       tfClient : tfClient,
-      path : 'http://resources.robotwebtools.org/',
+      path : 'http://localhost:1036/',
       rootObject : viewer.scene,
       loader : ROS3D.COLLADA_LOADER
     });
+
+    //add the map
+    //var gridClient = new ROS3D.OccupancyGridClient({
+     // ros : ros,
+      //rootObject : viewer.scene
+    //});
   }
 </script>
+
 </head>
 
 <body onload="init()">
