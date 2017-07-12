@@ -12,19 +12,22 @@ print("Changing serve path to: " + frontend_path)
 import subprocess
 
 
-commands = [
-	    'roslaunch pr2_description upload_pr2.launch && rosrun robot_state_publisher robot_state_publisher',\
+commands = ['rosrun interactive_marker_tutorials basic_controls', \
+	    'rosrun interactive_marker_proxy proxy topic_ns:=/basic_controls target_frame:=/rotating_frame',\
+	    'rosrun tf2_web_republisher tf2_web_republisher',\
+	    'roslaunch rosbridge_server rosbridge_websocket.launch']
+
+'''
+commands = ['roslaunch pr2_description upload_pr2.launch',\
+	    'rosrun robot_state_publisher robot_state_publisher',\
 	    'rosparam set use_gui true',\
-	    'rosparam set source_list "[\'new_joint_status\']"',\
 	    'rosrun joint_state_publisher joint_state_publisher',\
 	    'rosrun tf2_web_republisher tf2_web_republisher', \
-	    'roslaunch rosbridge_server rosbridge_websocket.launch'
-]
-import time
-for command in commands:
-       subprocess.Popen(command, stdout=subprocess.PIPE, shell=True)
-       time.sleep(5)
+	    'roslaunch rosbridge_server rosbridge_websocket.launch']
+'''
 
+#for command in commands:
+ #      subprocess.Popen(command, stdout=subprocess.PIPE, shell=True)
 os.chdir(frontend_path)
 
 
