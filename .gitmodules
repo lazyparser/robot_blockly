@@ -1,6 +1,0 @@
-[submodule "frontend/blockly"]
-	path = frontend/blockly
-	url = https://github.com/lazyparser/blockly
-[submodule "frontend/ace-builds"]
-	path = frontend/ace-builds
-	url = https://github.com/lazyparser/ace-builds
