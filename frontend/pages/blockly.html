@@ -209,13 +209,15 @@
                   <div class="tab-pane fade in active" id="home">
 		    <div class="col-sm-5" id="blocklyArea" style="height:100vh;"></div>
 		    <div class="col-sm-7" id="test" style="height:100vh;text-align:left;">
-			<h1>Rviz Web</h1>
-
-			<!--iframe width="520px" height="490px" src="./rviz/interactivemarkers.html"></iframe-->
-			<!--iframe width="825px" height="625px" src="./rviz/urdf.html"></iframe-->
-			<iframe width="825px" height="625px" src="./rviz/all.html"></iframe>
-			<!--iframe width="520px" height="490px" src="./rviz/urdf.html"></iframe-->
-
+          <div class="row-sm-8">
+            <h1>Rviz Web</h1>
+            <iframe width="825px" height="625px" src="./rviz/all.html"></iframe>
+          </div>
+          <div class="row-sm-4">
+             <h1>Topic</h1>
+             <div id="topic_message" style="color: red">
+             </div>
+          </div>
 		    </div>
                   </div>
                   <div class="tab-pane fade" id="profile">
@@ -619,6 +621,25 @@
     // alert("Saved: "+xml_text);
   }
 
+</script>
+<script type="text/javascript">
+       var socket = new WebSocket("ws://127.0.0.1:10101");
+
+        socket.addEventListener("open", function (event) {
+            socket.send("Hello Server!");
+            console.log("Open...")
+        });
+
+        socket.addEventListener("message", function (event) {
+            
+            var node = document.getElementById("topic_message") || document.body;
+            
+            console.log("received message: " + event.data);
+            socket.send("Hello Number: "+ Math.random());
+
+            var content = '<p>' + event.data + "</p>";
+            node.innerHTML = content;            
+        });
 </script>
 
 </body>
