@@ -14,6 +14,7 @@ catkin_package(CATKIN_DEPENDS std_msgs message_runtime)
 catkin_install_python(PROGRAMS
   scripts/robot_blockly_backend.py
   scripts/pywebserver.py
+  scripts/topic_server.py
 #  DESTINATION ${CATKIN_PACKAGE_SHARE_DESTINATION}/scripts
   DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION}/scripts
 )
