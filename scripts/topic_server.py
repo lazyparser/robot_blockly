@@ -16,9 +16,9 @@ def source_cb(msg):
         header = msg.transforms[i].header
         transform = msg.transforms[i].transform
         a = {'ts': '%d.%d' % (header.stamp.secs, header.stamp.nsecs), 
-             'translation': '(%f, %f, %f)' % (transform.translation.x, 
+             'translation': '%f, %f, %f' % (transform.translation.x, 
              transform.translation.y, transform.translation.z),
-             'rotation': '(%f, %f, %f, %f)' % (transform.rotation.x, transform.rotation.y,
+             'rotation': '%f, %f, %f, %f' % (transform.rotation.x, transform.rotation.y,
              transform.rotation.z, transform.rotation.w)
         }
         message_map[header.frame_id] = json.dumps(a)

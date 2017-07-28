@@ -215,8 +215,23 @@
           </div>
           <div class="row-sm-4">
              <h1>Topic</h1>
-             <div id="topic_message" style="color: red">
-             </div>
+             <select id="my_select">
+              </select>
+              <label>Time:</label> <label id="time_for_tf"></label>
+              <fieldset>
+                <legend>Translation</legend>
+                <label>X:</label><label id="transl_x"></label>
+                <label>Y:</label><label id="transl_y"></label>
+                <label>Z:</label><label id="transl_z"></label>
+              </fieldset>
+              <fieldset>
+                <legend>Rotation:</legend>
+                <label>X:</label><label id="rotate_x"></label>
+                <label>Y:</label><label id="rotate_y"></label>
+                <label>Z:</label><label id="rotate_z"></label>
+                <label>W:</label><label id="rotate_w"></label>
+              </fieldset>
+        <div>
           </div>
 		    </div>
                   </div>
@@ -599,6 +614,7 @@
 
     // Launch websockets
     ExecutionLogicModule.launch_websockets();
+    load_topic();
 
     // Recursively store everything after x miliseconds
     // automate_localstorage();
@@ -624,22 +640,81 @@
 </script>
 <script type="text/javascript">
        var socket = new WebSocket("ws://127.0.0.1:10101");
+        var selectNode, timeNode, transl_x, transl_y, transl_z,
+        rotate_x, rotate_y, rotate_z, rotate_w;
+        var dataObj = {}, valueObj = {};
+        function process_data(data) {
+          var obj = JSON.parse(data);
+          if (typeof obj === "object") {
+            dataObj = obj;
+            for (var key in obj) {
+              if (!valueObj[key]) {
+                var option = document.createElement("option");
+                option.value = key;
+                option.text = key;
+                selectNode.appendChild(option);
+                valueObj[key] = key;
+                }
+            }
+            show_data();
+          }
+        }
 
-        socket.addEventListener("open", function (event) {
-            socket.send("Hello Server!");
-            console.log("Open...")
-        });
+        function show_data() {
+            var selectedValue = selectNode.options[selectNode.selectedIndex].value;
+            var innerObj = JSON.parse(dataObj[selectedValue]);
+            var date = new Date(innerObj["ts"] * 1000);
+            var year = date.getFullYear();
+            var month = date.getMonth() + 1;
+            var day = date.getDate();
+            var hours = date.getHours();
+            var minutes = date.getMinutes();
+            var seconds = date.getSeconds();
+            var millisecs = date.getMilliseconds()
+            timeNode.innerText = year + '/' + month + '/' + day + ' ' + 
+            hours + ':' + minutes + ':' + seconds + '.' + millisecs;
+            var translObj = innerObj['translation'].split(',');
+            transl_x.innerText = translObj[0];
+            transl_y.innerText = translObj[1];
+            transl_z.innerText = translObj[2];
+            var rotateObj = innerObj['rotation'].split(',');
+            rotate_x.innerText =rotateObj[0];
+            rotate_y.innerText =rotateObj[1];
+            rotate_z.innerText =rotateObj[2];
+            rotate_w.innerText =rotateObj[3];
+        }
 
-        socket.addEventListener("message", function (event) {
-            
-            var node = document.getElementById("topic_message") || document.body;
-            
-            console.log("received message: " + event.data);
-            socket.send("Hello Number: "+ Math.random());
+        function load_topic() {
 
-            var content = '<p>' + event.data + "</p>";
-            node.innerHTML = content;            
-        });
+            selectNode = document.getElementById("my_select");
+            timeNode = document.getElementById("time_for_tf");
+            transl_x =document.getElementById('transl_x');
+            transl_y =document.getElementById('transl_y');
+            transl_z =document.getElementById('transl_z');
+            rotate_x =document.getElementById('rotate_x');
+            rotate_y =document.getElementById('rotate_y');
+            rotate_z =document.getElementById('rotate_z');
+            rotate_w =document.getElementById('rotate_w');
+
+            selectNode.addEventListener("change", function (event) {
+                show_data();
+            }, false);
+
+            var socket = new WebSocket("ws://127.0.0.1:10101");
+
+            socket.addEventListener("open", function (event) {
+                socket.send("Hello Server!");
+                console.log("Open...")
+            });
+
+            socket.addEventListener("message", function (event) {
+
+                console.log("received message: " + event.data);
+                socket.send("Hello Number: " + Math.random());
+                process_data(event.data);
+            });
+
+        }
 </script>
 
 </body>
