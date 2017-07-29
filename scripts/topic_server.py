@@ -34,13 +34,9 @@ class MyServerProtocol(WebSocketServerProtocol):
 
     def onMessage(self, payload, isBinary):
         global message_map
-        if isBinary:
-            print("Binary message received: {} bytes".format(len(payload)))
-        else:
-            print("Text message received: {}".format(payload.decode('utf8')))
-
         # echo back message verbatim
         self.sendMessage(json.dumps(message_map), isBinary)
+        time.sleep(0.5)
         print(json.dumps(message_map))
 
     def onClose(self, wasClean, code, reason):
