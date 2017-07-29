@@ -16,9 +16,9 @@ def source_cb(msg):
         header = msg.transforms[i].header
         transform = msg.transforms[i].transform
         a = {'ts': '%d.%d' % (header.stamp.secs, header.stamp.nsecs), 
-             'translation': '(%f, %f, %f)' % (transform.translation.x, 
+             'translation': '%f, %f, %f' % (transform.translation.x, 
              transform.translation.y, transform.translation.z),
-             'rotation': '(%f, %f, %f, %f)' % (transform.rotation.x, transform.rotation.y,
+             'rotation': '%f, %f, %f, %f' % (transform.rotation.x, transform.rotation.y,
              transform.rotation.z, transform.rotation.w)
         }
         message_map[header.frame_id] = json.dumps(a)
@@ -34,13 +34,9 @@ class MyServerProtocol(WebSocketServerProtocol):
 
     def onMessage(self, payload, isBinary):
         global message_map
-        if isBinary:
-            print("Binary message received: {} bytes".format(len(payload)))
-        else:
-            print("Text message received: {}".format(payload.decode('utf8')))
-
         # echo back message verbatim
         self.sendMessage(json.dumps(message_map), isBinary)
+        time.sleep(0.5)
         print(json.dumps(message_map))
 
     def onClose(self, wasClean, code, reason):
