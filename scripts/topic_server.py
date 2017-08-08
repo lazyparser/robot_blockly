@@ -37,7 +37,6 @@ class MyServerProtocol(WebSocketServerProtocol):
         # echo back message verbatim
         self.sendMessage(json.dumps(message_map), isBinary)
         time.sleep(0.5)
-        print(json.dumps(message_map))
 
     def onClose(self, wasClean, code, reason):
         print("WebSocket connection closed: {}".format(reason))
